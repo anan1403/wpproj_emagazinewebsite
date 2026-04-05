@@ -68,8 +68,12 @@ router.get("/magazine/:id", async (req, res) => {
 });
 
 router.get("/:id", async (req, res) => {
-  const article = await Article.findById(req.params.id);
-  res.json(article);
+  try {
+    const article = await Article.findById(req.params.id).populate("author", "username");
+    res.json(article);
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 
 router.get("/author/:id", async (req, res) => {

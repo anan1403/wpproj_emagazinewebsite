@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Heart, Share2, Bookmark, MessageSquare, BookOpen, ChevronRight } from 'lucide-react';
 import { magazineService, articleService, userService } from '../services/api';
 
 const Magazine = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [magazine, setMagazine] = useState(null);
   const [articles, setArticles] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -78,9 +79,10 @@ const Magazine = () => {
   const handleRead = async (articleId, title) => {
     try {
       await userService.addToHistory(articleId);
-      alert(`Opening article: ${title}`);
+      navigate(`/article/${articleId}`);
     } catch (err) {
       console.error(err);
+      navigate(`/article/${articleId}`); // Fallback navigate if backend stats fail
     }
   };
 

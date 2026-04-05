@@ -11,6 +11,7 @@ import ForgotPassword from './pages/ForgotPassword';
 import Profile from './pages/Profile';
 import Magazine from './pages/Magazine';
 import Category from './pages/Category';
+import Article from './pages/Article';
 import Subscriptions from './pages/Subscriptions';
 import Liked from './pages/Liked';
 import History from './pages/History';
@@ -61,6 +62,7 @@ function App() {
           <Route path="/signup" element={<Signup setIsAuthenticated={setIsAuthenticated} />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/magazine/:id" element={<Magazine />} />
+          <Route path="/article/:id" element={<Article />} />
           <Route path="/category/:name" element={<Category />} />
           
           {/* Protected Routes (Simple check) */}

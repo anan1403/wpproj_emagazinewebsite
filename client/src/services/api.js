@@ -36,6 +36,7 @@ export const magazineService = {
 };
 
 export const articleService = {
+  getById: (id) => api.get(`/articles/${id}`),
   getByMagazine: (magazineId) => api.get(`/articles/magazine/${magazineId}`),
   likeArticle: (id) => api.put(`/articles/like/${id}`),
 };
