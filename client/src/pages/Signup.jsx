@@ -21,6 +21,10 @@ const Signup = ({ setIsAuthenticated }) => {
     e.preventDefault();
     setError('');
 
+    if (formData.password.length < 8) {
+      return setError('Password must be at least 8 characters long');
+    }
+
     if (formData.password !== formData.confirmPassword) {
       return setError('Passwords do not match');
     }

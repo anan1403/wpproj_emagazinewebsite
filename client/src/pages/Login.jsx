@@ -14,8 +14,13 @@ const Login = ({ setIsAuthenticated }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
     setError('');
+
+    if (formData.password.length < 8) {
+      return setError('Password must be at least 8 characters long');
+    }
+    
+    setIsLoading(true);
     
     try {
       const response = await authService.login(formData);
