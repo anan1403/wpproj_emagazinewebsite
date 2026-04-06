@@ -93,7 +93,7 @@ router.get("/search", async (req, res) => {
 
     const articles = await Article.find({
       title: { $regex: query, $options: "i" }
-    });
+    }).populate("author", "username");
 
     res.json(articles);
   } catch (err) {
@@ -111,7 +111,7 @@ router.get("/category/:category", async (req, res) => {
 
     const articles = await Article.find({
       magazine: { $in: magazineIds }
-    });
+    }).populate("author", "username");
 
     res.json(articles);
   } catch (err) {
@@ -122,21 +122,18 @@ router.get("/category/:category", async (req, res) => {
 
 router.get("/trending", async (req, res) => {
   try {
-    const articles = await Article.aggregate([
-      {
-        $addFields: {
-          likesCount: { $size: "$likes" }
-        }
-      },
-      {
-        $sort: { likesCount: -1 }
-      },
-      {
-        $limit: 5
-      }
-    ]);
+    cconst articles = await Article.aggregate([
+  { $addFields: { likesCount: { $size: "$likes" } } },
+  { $sort: { likesCount: -1 } },
+  { $limit: 5 }
+]);
 
-    res.json(articles);
+const populatedArticles = await Article.populate(articles, {
+  path: "author",
+  select: "username"
+});
+
+res.json(populatedArticles);
 
   } catch (err) {
     res.status(500).json(err);
@@ -153,7 +150,7 @@ router.get("/", async (req, res) => {
     console.log("PAGE:", page);
     console.log("SKIP:", (page - 1) * limit);
 
-    const articles = await Article.find()
+    const articles = await Article.find().populate("author", "username") 
       .sort({ createdAt: -1 })
       .skip((page - 1) * limit)
       .limit(limit);
