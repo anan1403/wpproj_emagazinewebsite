@@ -76,7 +76,7 @@ const Magazine = () => {
     }
   };
 
-  const handleRead = async (articleId, title) => {
+  const handleRead = async (articleId) => {
     try {
       await userService.addToHistory(articleId);
       navigate(`/article/${articleId}`);
@@ -151,9 +151,9 @@ const Magazine = () => {
               <p style={{ color: '#cbd5e1', lineHeight: '1.6' }}>{article.content ? article.content.substring(0, 150) + '...' : 'Read full article to discover more...'}</p>
               
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '1rem', paddingTop: '1rem', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
-                <button 
+                <button
                   style={{ color: 'var(--color-primary)', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '0.5rem' }}
-                  onClick={() => handleRead(article._id, article.title)}
+                  onClick={() => handleRead(article._id)}
                 >
                   Read Article <ChevronRight size={16} />
                 </button>
